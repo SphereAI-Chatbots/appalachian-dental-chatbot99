@@ -15,21 +15,18 @@ module.exports = async function handler(req, res) {
     const chatResponse = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
-        { role: "system", content: "You are a helpful, professional AI assistant for Appalachian Dental." },
-        { role: "user", content: message }
-      ]
+        {
+          role: "system",
+          content: "You are a helpful, professional AI assistant for Appalachian Dental.",
+        },
+        { role: "user", content: message },
+      ],
     });
 
     const reply = chatResponse.choices[0]?.message?.content || "No response.";
-
     res.status(200).json({ response: reply });
-
-} catch (error) {
+  } catch (error) {
     console.error("OpenAI error:", error);
-  
-    res.status(500).json({
-      error: "Internal Server Error",
-      message: error.message || "Something went wrong",
-    });
+    res.status(500).json({ error: "Internal Server Error", message: error.message });
   }
-  
+};
