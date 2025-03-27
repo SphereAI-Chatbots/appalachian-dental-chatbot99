@@ -1,4 +1,4 @@
-const { OpenAI } = require("openai");
+const OpenAI = require("openai");
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -24,8 +24,12 @@ module.exports = async function handler(req, res) {
 
     res.status(200).json({ response: reply });
 
-  } catch (error) {
+} catch (error) {
     console.error("OpenAI error:", error);
-    res.status(500).json({ error: "Something went wrong on the server." });
+  
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: error.message || "Something went wrong",
+    });
   }
-};
+  
