@@ -1,41 +1,39 @@
-const chatBox = document.getElementById('chatBox');
-const userInput = document.getElementById('userInput');
-
-// Send message to server
 async function sendMessage() {
-  const message = userInput.value.trim();
-  if (!message) return;
+  const inputField = document.getElementById("userInput");
+  const userMessage = inputField.value.trim();
+  if (!userMessage) return;
 
-  // Show user message
-  addMessage(message, 'user');
-  userInput.value = '';
+  addMessage("user", userMessage);
+  inputField.value = "";
+  inputField.disabled = true;
 
   try {
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message }),
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userMessage })
     });
 
     const data = await response.json();
-    const botReply = data.response || "Sorry, I didn't understand that.";
-    addMessage(botReply, 'bot');
+    addMessage("bot", data.response || "Sorry, something went wrong.");
   } catch (error) {
-    addMessage("Oops! Something went wrong. Please try again later.", 'bot');
-    console.error(error);
+    console.error("Chat error:", error);
+    addMessage("bot", "Sorry, there was an error.");
+  } finally {
+    inputField.disabled = false;
+    inputField.focus();
   }
 }
 
-// Display message in chat box
-function addMessage(text, sender) {
-  const bubble = document.createElement('div');
-  bubble.className = `chat-bubble ${sender}`;
-  bubble.textContent = text;
-  chatBox.appendChild(bubble);
-  chatBox.scrollTop = chatBox.scrollHeight;
+function clearChat() {
+  document.getElementById("chatBox").innerHTML = "";
 }
 
-// Clear all chat messages
-function clearChat() {
-  chatBox.innerHTML = '';
+function addMessage(role, text) {
+  const chatBox = document.getElementById("chatBox");
+  const messageDiv = document.createElement("div");
+  messageDiv.className = `chat-bubble ${role}`;
+  messageDiv.textContent = text;
+  chatBox.appendChild(messageDiv);
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
