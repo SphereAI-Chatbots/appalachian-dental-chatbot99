@@ -70,21 +70,36 @@
 
     .chat-entry {
       margin-bottom: 20px;
-      background: #ffffff;
       padding: 14px 16px;
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .chat-entry.user {
+      background: #e0f2fe;
+      border-left: 4px solid #0284c7;
+    }
+
+    .chat-entry.ai {
+      background: #fef3c7;
+      border-left: 4px solid #ca8a04;
     }
 
     .chat-entry strong {
       display: block;
       color: #111827;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
+    }
+
+    .chat-entry time {
+      font-size: 0.75rem;
+      color: #6b7280;
+      float: right;
     }
 
     .chat-entry p {
-      margin: 0;
+      margin: 4px 0 0;
       color: #374151;
       line-height: 1.6;
       white-space: pre-wrap;
@@ -129,7 +144,7 @@
 </head>
 <body>
   <header>
-    <img src="C:\Users\eric0\OneDrive\Desktop\Logo-Transparent-2.jpg" alt="Appalachian Dental Logo" />
+    <img src="/sphere-logo.png" alt="Sphere AI Logo" class="h-12">
     <h1>Appalachian Dental Chatbot</h1>
     <div class="welcome">Welcome! Ask anything about dental insurance codes, procedures, or maximizing billing.</div>
   </header>
