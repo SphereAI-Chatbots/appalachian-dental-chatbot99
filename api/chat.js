@@ -1,40 +1,47 @@
-function sendMessage() {
-  const userInput = document.getElementById("userInput");
-  const chatBox = document.getElementById("chatBox");
-  const userText = userInput.value.trim();
-  if (userText === "") return;
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-  const userBubble = document.createElement("div");
-  userBubble.className = "chat-bubble user";
-  userBubble.textContent = userText;
-  chatBox.appendChild(userBubble);
-  userInput.value = "";
+  const { message } = req.body;
 
-  fetch("/api/chat", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ message: userText })
-  })
-  .then(res => res.json())
-  .then(data => {
-    const botBubble = document.createElement("div");
-    botBubble.className = "chat-bubble bot";
-    botBubble.textContent = data.reply || "No response from bot.";
-    chatBox.appendChild(botBubble);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  })
-  .catch(err => {
-    const errorBubble = document.createElement("div");
-    errorBubble.className = "chat-bubble bot";
-    errorBubble.textContent = "Error contacting the bot.";
-    chatBox.appendChild(errorBubble);
-    console.error("Chat API error:", err);
-  });
-}
+  if (!message || typeof message !== "string") {
+    return res.status(400).json({ error: "Invalid message format" });
+  }
 
-function clearChat() {
-  const chatBox = document.getElementById("chatBox");
-  chatBox.innerHTML = "";
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4",
+        messages: [
+          {
+            role: "system",
+            content: "You are a helpful dental office assistant focused on explaining dental insurance, procedure codes, and billing questions in a friendly way.",
+          },
+          {
+            role: "user",
+            content: message,
+          },
+        ],
+        temperature: 0.7,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.choices?.[0]?.message?.content) {
+      return res.status(200).json({ reply: data.choices[0].message.content.trim() });
+    } else {
+      console.error("OpenAI API error:", data);
+      return res.status(500).json({ error: "Bot error: Invalid response from OpenAI." });
+    }
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({ error: "Bot error: Something went wrong." });
+  }
 }
