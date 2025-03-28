@@ -4,7 +4,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-module.exports = async function handler(req, res) {
+module.exports = async function (req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -17,12 +17,10 @@ module.exports = async function handler(req, res) {
       messages: [
         {
           role: "system",
-          content: "You are a helpful, professional AI assistant for Appalachian Dental.",
+          content:
+            "You are a helpful, professional AI assistant for Appalachian Dental.",
         },
-        {
-          role: "user",
-          content: message,
-        },
+        { role: "user", content: message },
       ],
     });
 
@@ -30,10 +28,10 @@ module.exports = async function handler(req, res) {
 
     res.status(200).json({ response: reply });
   } catch (error) {
-    console.error("OpenAI error:", error.message);
+    console.error("OpenAI error:", error);
     res.status(500).json({
       error: "Internal Server Error",
-      message: error.message,
+      message: error.message || "Something went wrong",
     });
   }
 };
