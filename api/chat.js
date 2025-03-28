@@ -17,18 +17,20 @@ module.exports = async function (req, res) {
       messages: [
         {
           role: "system",
-          content:
-            "You are a helpful, professional AI assistant for Appalachian Dental.",
+          content: "You are a helpful, professional AI assistant for Appalachian Dental, specializing in dental insurance coding, billing, and procedure optimization.",
         },
-        { role: "user", content: message },
+        {
+          role: "user",
+          content: message,
+        },
       ],
     });
 
-    const reply = chatResponse.choices[0]?.message?.content || "No response.";
-
+    const reply = chatResponse.choices?.[0]?.message?.content || "No response from AI.";
     res.status(200).json({ response: reply });
+
   } catch (error) {
-    console.error("OpenAI error:", error);
+    console.error("OpenAI API Error:", error);
     res.status(500).json({
       error: "Internal Server Error",
       message: error.message || "Something went wrong",

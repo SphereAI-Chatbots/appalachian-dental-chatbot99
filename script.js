@@ -1,3 +1,8 @@
+document.addEventListener("DOMContentLoaded", function () {
+  const sendBtn = document.getElementById("sendBtn");
+  sendBtn.addEventListener("click", sendMessage);
+});
+
 async function sendMessage() {
   const userInput = document.getElementById("userInput").value.trim();
   const chatBox = document.getElementById("chatBox");
@@ -5,7 +10,6 @@ async function sendMessage() {
 
   const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-  // Add user message
   chatBox.innerHTML += `
     <div class="chat-bubble user">
       <div class="text-sm font-semibold mb-1">You <span class="text-xs text-gray-500">(${timestamp})</span></div>
@@ -13,7 +17,6 @@ async function sendMessage() {
     </div>
   `;
 
-  // Reset input and show "thinking"
   document.getElementById("userInput").value = "";
   chatBox.innerHTML += `
     <div class="chat-bubble bot italic text-gray-400" id="loading">AI is thinking...</div>
@@ -37,8 +40,6 @@ async function sendMessage() {
     const data = await response.json();
     const reply = (data.response || "No response.").replace(/\n/g, "<br>");
     document.getElementById("loading").remove();
-
-    // Show AI response
     chatBox.innerHTML += `
       <div class="chat-bubble bot">
         <div class="text-sm font-semibold mb-1">AI <span class="text-xs text-gray-500">(${timestamp})</span></div>
