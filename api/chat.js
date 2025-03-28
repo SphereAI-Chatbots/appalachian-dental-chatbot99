@@ -1,39 +1,23 @@
-const OpenAI = require("openai");
+// File: /api/chat.js
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-module.exports = async function (req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
     const { message } = req.body;
 
-    const chatResponse = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: "You are a helpful, professional AI assistant for Appalachian Dental, specializing in dental insurance coding, billing, and procedure optimization.",
-        },
-        {
-          role: "user",
-          content: message,
-        },
-      ],
-    });
+    if (!message || typeof message !== 'string') {
+      return res.status(400).json({ error: 'Invalid message format' });
+    }
 
-    const reply = chatResponse.choices?.[0]?.message?.content || "No response from AI.";
-    res.status(200).json({ response: reply });
+    // Simulate a response for now (replace with actual logic or API call later)
+    const reply = `You asked: "${message}". We're working on your dental info!`;
 
+    return res.status(200).json({ reply });
   } catch (error) {
-    console.error("OpenAI API Error:", error);
-    res.status(500).json({
-      error: "Internal Server Error",
-      message: error.message || "Something went wrong",
-    });
+    console.error('API Error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
-};
+}
