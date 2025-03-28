@@ -1,58 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Appalachian Dental Chatbot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    .chat-bubble {
-      max-width: 36rem;
-      padding: 1rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-      white-space: pre-wrap;
-    }
-    .user {
-      background-color: #dbeafe;
-      color: #1e3a8a;
-      align-self: flex-end;
-    }
-    .bot {
-      background-color: #f3f4f6;
-      color: #1f2937;
-      align-self: flex-start;
-    }
-  </style>
-</head>
-<body class="bg-gradient-to-br from-sky-50 to-white min-h-screen flex flex-col items-center px-4 py-10">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Appalachian Dental Chatbot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .chat-bubble {
+        max-width: 36rem;
+        padding: 1rem;
+        border-radius: 1rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        white-space: pre-wrap;
+      }
+      .user {
+        background-color: #d0eafe;
+        color: #1e3a8a;
+        align-self: flex-end;
+      }
+      .bot {
+        background-color: #f3f4f6;
+        color: #1f2937;
+        align-self: flex-start;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-sky-50 to-white min-h-screen flex flex-col items-center px-4 py-10">
+    <header class="text-center mb-8">
+      <img src="/logo.png" alt="Appalachian Dental Logo" class="h-20 mx-auto mb-3" />
+      <img src="/Sphere%20AI%20Logo%20(Official%20-%20Circle).png" alt="Sphere AI Logo" class="h-12 mx-auto mb-2" />
+      <h1 class="text-4xl font-extrabold text-red-800 tracking-tight">Appalachian Dental Chatbot</h1>
+      <p class="text-lg text-gray-600 mt-2">Welcome! Ask anything about dental insurance codes, procedures, or maximizing billing.</p>
+    </header>
 
-  <header class="text-center mb-8">
-    <img src="/logo.png" alt="Appalachian Dental Logo" class="h-20 mx-auto mb-3" />
-    <img src="/Sphere%20AI%20Logo%20(Official%20-%20Circle).png" alt="Sphere AI Logo" class="h-12 mx-auto mb-2" />
-    <h1 class="text-4xl font-extrabold text-red-800 tracking-tight">Appalachian Dental Chatbot</h1>
-    <p class="text-lg text-gray-600 mt-2">Welcome! Ask anything about dental insurance codes, procedures, or maximizing billing.</p>
-  </header>
+    <main class="w-full max-w-3xl bg-white shadow-2xl rounded-3xl p-8 flex flex-col gap-6">
+      <div id="chatBox" class="flex flex-col gap-4 overflow-y-auto max-h-[500px] px-2"></div>
+      <div class="flex items-center gap-4">
+        <input type="text" id="userInput" placeholder="Type your question here..."
+          class="flex-1 p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <button onclick="sendMessage()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl">Send</button>
+      </div>
+      <button onclick="clearChat()" class="text-sm text-blue-600 hover:underline self-end">Clear chat</button>
+    </main>
 
-  <main class="w-full max-w-3xl bg-white shadow-2xl rounded-3xl p-8 flex flex-col gap-6">
-    <div id="chatBox" class="flex flex-col gap-4 overflow-y-auto max-h-[500px] px-2"></div>
-    <div class="flex items-center gap-4">
-      <input type="text" id="userInput" placeholder="Type your question here..." class="flex-1 p-4 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-      <button id="sendBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl">Send</button>
-    </div>
-    <button onclick="clearChat()" class="text-sm text-blue-600 hover:underline self-end">Clear chat</button>
-  </main>
+    <footer class="mt-10 text-center text-gray-500 text-sm">
+      <div class="flex flex-col items-center gap-2">
+        <p>Powered by Sphere AI</p>
+      </div>
+    </footer>
 
-  <footer class="mt-10 text-center text-gray-500 text-sm">
-    <div class="flex flex-col items-center gap-2">
-      <p>Powered by Sphere AI</p>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
